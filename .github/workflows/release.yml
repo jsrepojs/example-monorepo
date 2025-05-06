@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+            node-version: 20
+            cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Create Release Pull Request
+        id: changesets
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if @example/mono-one was published
+        id: mono_one_published
+        run: |
+          echo '${{ steps.changesets.outputs.publishedPackages }}' | \
+            jq -e '.[] | select(.name == "mono-one")' > /dev/null && \
+            echo "was_published=true" >> $GITHUB_OUTPUT || \
+            echo "was_published=false" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Check if @example/mono-two was published
+        id: mono_two_published
+        run: |
+          echo '${{ steps.changesets.outputs.publishedPackages }}' | \
+            jq -e '.[] | select(.name == "mono-two")' > /dev/null && \
+            echo "was_published=true" >> $GITHUB_OUTPUT || \
+            echo "was_published=false" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Publish mono-one
+        if: steps.mono_one_published.outputs.was_published == 'true'
+        run: pnpm release:mono-one
+      
+      - name: Publish mono-two
+        if: steps.mono_two_published.outputs.was_published == 'true'
+        run: pnpm release:mono-two
