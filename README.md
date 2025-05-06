@@ -1,6 +1,6 @@
 # example-monorepo
 
-An example of how to release multiple registries to jsrepo.com from the same repository.
+An example of how to release multiple registries to jsrepo.com from the same repository. 
 
 ## registries
 - [@example/mono-one](https://www.jsrepo.com/@example/mono-one)
