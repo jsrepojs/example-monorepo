@@ -1,0 +1,28 @@
+{
+	"name": "example-monorepo",
+	"version": "0.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"format": "biome format --write",
+		"lint": "biome lint --write",
+		"check": "biome check",
+		"build:mono-one": "pnpm jsrepo build --no-output --preview --cwd ./registries/mono-one",
+		"release:mono-one": "pnpm -F mono-one release:registry",
+		"build:mono-two": "pnpm jsrepo build --no-output --preview --cwd ./registries/mono-two",
+		"release:mono-two": "pnpm -F mono-two release:registry",
+		"build:registries": "pnpm build:mono-one && pnpm build:mono-two"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.8.1",
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@changesets/cli": "^2.29.3",
+		"@svitejs/changesets-changelog-github-compact": "^1.2.0",
+		"concurrently": "^9.1.2",
+		"jsrepo": "^2.0.2",
+		"typescript": "^5.8.3"
+	}
+}
