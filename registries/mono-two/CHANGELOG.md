@@ -1,5 +1,11 @@
 # mono-two
 
+## 0.0.2
+
+### Patch Changes
+
+- chore: add registry metadata ([#4](https://github.com/jsrepojs/example-monorepo/pull/4))
+
 ## 0.0.1
 
 ### Patch Changes
