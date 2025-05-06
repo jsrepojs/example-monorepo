@@ -49,7 +49,11 @@ jobs:
       - name: Publish mono-one
         if: steps.mono_one_published.outputs.was_published == 'true'
         run: pnpm release:mono-one
+        env:
+          JSREPO_TOKEN: ${{ secrets.JSREPO_TOKEN }}
       
       - name: Publish mono-two
         if: steps.mono_two_published.outputs.was_published == 'true'
         run: pnpm release:mono-two
+        env:
+          JSREPO_TOKEN: ${{ secrets.JSREPO_TOKEN }}
