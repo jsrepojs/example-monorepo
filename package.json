@@ -11,7 +11,8 @@
 		"release:mono-one": "pnpm -F mono-one release:registry",
 		"build:mono-two": "pnpm jsrepo build --no-output --preview --cwd ./registries/mono-two",
 		"release:mono-two": "pnpm -F mono-two release:registry",
-		"build:registries": "pnpm build:mono-one && pnpm build:mono-two"
+		"build:registries": "pnpm build:mono-one && pnpm build:mono-two",
+		"release:registries": "pnpm concurrently \"pnpm release:mono-two\" \"pnpm release:mono-one\" && pnpm changeset tag"
 	},
 	"keywords": [],
 	"author": "",

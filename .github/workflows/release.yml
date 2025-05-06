@@ -25,35 +25,11 @@ jobs:
       - name: Create Release Pull Request
         id: changesets
         uses: changesets/action@v1
+        with:
+            commit: 'chore(release): version package'
+            title: 'chore(release): version package'
+            publish: 'pnpm release:registries'
         env:
+          JSREPO_TOKEN: ${{ secrets.JSREPO_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check if @example/mono-one was published
-        id: mono_one_published
-        run: |
-          echo '${{ steps.changesets.outputs.publishedPackages }}' | \
-            jq -e '.[] | select(.name == "mono-one")' > /dev/null && \
-            echo "was_published=true" >> $GITHUB_OUTPUT || \
-            echo "was_published=false" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Check if @example/mono-two was published
-        id: mono_two_published
-        run: |
-          echo '${{ steps.changesets.outputs.publishedPackages }}' | \
-            jq -e '.[] | select(.name == "mono-two")' > /dev/null && \
-            echo "was_published=true" >> $GITHUB_OUTPUT || \
-            echo "was_published=false" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Publish mono-one
-        if: steps.mono_one_published.outputs.was_published == 'true'
-        run: pnpm release:mono-one
-        env:
-          JSREPO_TOKEN: ${{ secrets.JSREPO_TOKEN }}
-      
-      - name: Publish mono-two
-        if: steps.mono_two_published.outputs.was_published == 'true'
-        run: pnpm release:mono-two
-        env:
-          JSREPO_TOKEN: ${{ secrets.JSREPO_TOKEN }}
+          NODE_ENV: production

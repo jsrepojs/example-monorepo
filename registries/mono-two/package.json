@@ -1,10 +1,10 @@
 {
 	"name": "mono-two",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"release:registry": "jsrepo publish && changeset tag"
+		"release:registry": "jsrepo publish"
 	},
 	"keywords": [],
 	"author": "",
